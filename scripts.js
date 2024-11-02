@@ -57,28 +57,25 @@ let page = 1; // Keep track of the current page number
 let matches = books // Store books to display, starting with all books
 
 // Functions for Repetitive Tasks
-// Render a list of books onto the page, limited by BOOKS_PER_PAGE constant
+// Function to render a list of books using the BookPreview component
 const renderBooks = (bookList) => {
-const fragment = document.createDocumentFragment()
-// Loop through the book list and create preview buttons for each book
-for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
-    const element = document.createElement('button');  // Create a button for each book
-    element.classList = 'preview';
-    element.setAttribute('data-preview', id);
-    element.innerHTML = `
-        <img
-            class="preview__image"
-            src="${image}"
-        />
-        <div class="preview__info">
-            <h3 class="preview__title">${title}</h3>
-            <div class="preview__author">${authors[author]}</div>
-        </div>
-    `
+    const fragment = document.createDocumentFragment(); // Create a document fragment to hold book previews
+// Loop through the sliced book list and create a BookPreview component for each book
+    for (const { id, title, author, image } of bookList.slice(0, BOOKS_PER_PAGE)) {
+        const bookPreview = document.createElement('book-preview'); // Create a book-preview element
+        bookPreview.setAttribute('id', id);  // Set book ID
+        bookPreview.setAttribute('title', title); // Set book title
+        bookPreview.setAttribute('author', authors[author]);  // Set book author
+        bookPreview.setAttribute('image', image); // Set book image
+        
+// Add event listener for the book-selected event to show book details when clicked
+        bookPreview.addEventListener('book-selected', (event) => {
+            displayBookDetails(event.detail.id);
+        });
 
-    fragment.appendChild(element); // Append the button to the fragment
-}
-document.querySelector('[data-list-items]').appendChild(fragment) // Append the fragment to the DOM
+        fragment.appendChild(bookPreview); // Append the book preview component to the fragment
+    }
+    document.querySelector('[data-list-items]').appendChild(fragment); // Append the fragment to the DOM
 };
 
 // Populate a select element with options, such as genres or authors, and a default option
