@@ -146,35 +146,36 @@ const handleThemeChange = (event) => {
     document.querySelector('[data-settings-overlay]').open = false;  // Close the settings overlay
 };
 
-// Show more books when user clicks the "Show More" button
+// Function to load and display more books using the BookPreview component
 const showMoreBooks = () => {
-    const fragment = document.createDocumentFragment();
-// Loop through the next set of books based on the current page
-    for (const {id,title, author, image } of matches.slice(page * BOOKS_PER_PAGE, (page + 1) * BOOKS_PER_PAGE)) {
-        const element = document.createElement('button');
-        element.classList = 'preview';
-        element.setAttribute('data-preview', id); // Set a data attribute for identifying the book
-        element.innerHTML = `
-            <img
-                class="preview__image"
-                src="${image}"
-            />
-            <div class="preview__info">
-                <h3 class="preview__title">${title}</h3>
-                <div class="preview__author">${authors[author]}</div>
-            </div>
-        `
-        fragment.appendChild(element)
+    const fragment = document.createDocumentFragment(); // Create a document fragment to hold book previews
+    
+    // Loop through the next set of books based on the current page
+    for (const { id, title, author, image } of matches.slice(page * BOOKS_PER_PAGE, (page + 1) * BOOKS_PER_PAGE)) {
+        const bookPreview = document.createElement('book-preview'); // Create a book-preview element
+        bookPreview.setAttribute('id', id); // Set the book ID
+        bookPreview.setAttribute('title', title); // Set the book title
+        bookPreview.setAttribute('author', authors[author]);  // Set the book author
+        bookPreview.setAttribute('image', image); // Set the book image
+
+        // Listen for the book-selected event to handle book detail display
+        bookPreview.addEventListener('book-selected', (event) => {
+            displayBookDetails(event.detail.id); // Call function to display details for the selected book
+        });
+
+        fragment.appendChild(bookPreview); // Append the book preview component to the fragment
     }
-    document.querySelector('[data-list-items]').appendChild(fragment);
+
+    document.querySelector('[data-list-items]').appendChild(fragment); // Append the fragment to the DOM
     page += 1;
 
-// Update button text and disable if no more books
-   listButton.innerHTML = `
-   <span>Show more</span>
-   <span class="list__remaining"> (${Math.max(matches.length - (page * BOOKS_PER_PAGE), 0)})</span>`;
-listButton.disabled = matches.length <= page * BOOKS_PER_PAGE;
+    // Update button text and disable if no more books to show
+    listButton.innerHTML = `
+        <span>Show more</span>
+        <span class="list__remaining"> (${Math.max(matches.length - (page * BOOKS_PER_PAGE), 0)})</span>`;
+    listButton.disabled = matches.length <= page * BOOKS_PER_PAGE; // Disable button if all books are displayed
 };
+
 
 // Show book details when user selects a book from the list
 const displayBookDetails = (bookId) => {
