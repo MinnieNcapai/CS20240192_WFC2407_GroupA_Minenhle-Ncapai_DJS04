@@ -103,4 +103,19 @@ class BookPreview extends HTMLElement {
             </button>
             `;
 
+    // Add event listener to handle click events on the preview button
+     this.shadowRoot.querySelector('.preview').addEventListener('click', () => {
+    // Dispatch a custom event with the book's ID when clicked
+                    this.dispatchEvent(new CustomEvent('book-selected', {
+                        detail: { id }, // Send the book ID as event data
+                        bubbles: true, // Allow event to bubble up through the DOM
+                        composed: true // Allow event to cross the shadow DOM boundary
+                    }));
+                });
+            }
+        }
+        
+    // Define the new element
+        customElements.define('book-preview', BookPreview);
+               
 
