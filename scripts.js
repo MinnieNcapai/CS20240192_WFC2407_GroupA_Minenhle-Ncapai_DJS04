@@ -4,6 +4,16 @@ import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
 // Classes to represent each book, author, and genre
 // This class creates a "Book" object with information like ID, title, author, genres, image, etc.
 class Book {
+     /**
+     * Creates a Book instance.
+     * @param {string} id - Unique ID for the book.
+     * @param {string} title - Title of the book.
+     * @param {string} author - ID of the author.
+     * @param {Array<string>} genres - Array of genre IDs associated with the book.
+     * @param {string} image - Image URL for the book cover.
+     * @param {Date} published - Publication date of the book.
+     * @param {string} description - Brief description of the book.
+     */
     constructor(id, title, author, genres, image, published, description) {
         this.id = id; // Unique ID for the book
         this.title = title; // Title of the book
@@ -17,6 +27,11 @@ class Book {
 
 // This class creates an "Author" object with ID and name
 class Author {
+      /**
+     * Creates an Author instance.
+     * @param {string} id - Unique ID for the author.
+     * @param {string} name - Name of the author.
+     */
     constructor(id, name) {
         this.id = id; // Unique ID for the author
         this.name = name; // Name of the author
@@ -25,6 +40,11 @@ class Author {
 
 // This class creates a "Genre" object with ID and name
 class Genre {
+      /**
+     * Creates a Genre instance.
+     * @param {string} id - Unique ID for the genre.
+     * @param {string} name - Name of the genre.
+     */
     constructor(id, name) {
         this.id = id; // Unique ID for the genre
         this.name = name; // Name of the genre
@@ -58,6 +78,10 @@ let matches = books // Store books to display, starting with all books
 
 // Functions for Repetitive Tasks
 // Function to render a list of books using the BookPreview component
+/**
+ * Renders a list of book previews.
+ * @param {Array<Book>} bookList - List of books to display.
+ */
 const renderBooks = (bookList) => {
     const fragment = document.createDocumentFragment(); // Create a document fragment to hold book previews
 // Loop through the sliced book list and create a BookPreview component for each book
@@ -79,6 +103,12 @@ const renderBooks = (bookList) => {
 };
 
 // Populate a select element with options, such as genres or authors, and a default option
+/**
+ * Populates
+ * @param {HTMLSelectElement} selectElement - The select element to populate.
+ * @param {Array<{ id: string, name: string }>} options - The options to add to the select.
+ * @param {string} defaultOptionText - The text for the default option.
+ */
 const renderOptions = (selectElement, options, defaultOptionText) => {
     const fragment = document.createDocumentFragment();
     const defaultOption = document.createElement('option');
@@ -105,6 +135,10 @@ renderOptions(document.querySelector('[data-search-authors]'), authorInstances, 
 
 //Theme Settings
 // Apply selected theme by setting custom CSS properties for colors
+/**
+ * Applies the selected theme.
+ * @param {string} theme - The name of the theme ('day' or 'night').
+ */
 const applyTheme = (theme) => {
 // Set colors based on the selected theme (night or day)
   if (theme === 'night') {
@@ -118,6 +152,10 @@ const applyTheme = (theme) => {
 
 // Event Handlers
 // Handle book search based on title, author, and genre filters
+/**
+ * Handles the search for books
+ * @param {Event} event - The submit event from the search form.
+ */
 const handleSearch = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -139,6 +177,10 @@ const handleSearch = (event) => {
 };
 
 // Handle theme change when user selects light or dark mode
+/**
+ * Handles theme changes 
+ * @param {Event} event - The submit event from the theme settings form.
+ */
 const handleThemeChange = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -178,6 +220,10 @@ const showMoreBooks = () => {
 
 
 // Show book details when user selects a book from the list
+/**
+ * Displays details for the selected book.
+ * @param {string} id - The ID of the selected book.
+ */
 const displayBookDetails = (bookId) => {
     const book = matches.find((book) => book.id === bookId);
     if (book) {

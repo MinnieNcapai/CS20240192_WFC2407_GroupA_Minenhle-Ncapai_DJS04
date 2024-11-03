@@ -1,5 +1,8 @@
 // Define a custom HTML element called "book-preview" for displaying book information
 class BookPreview extends HTMLElement {
+      /**
+     * Creates an instance of BookPreview.
+     */
     constructor() {
         super(); // Call the parent constructor
         this.attachShadow({ mode: 'open' }); // Create a shadow DOM to encapsulate the component's HTML and CSS
@@ -7,11 +10,21 @@ class BookPreview extends HTMLElement {
     }
 
 // Specify the attributes that the element listens to for changes
+/**
+ * Listens for changes 
+ * @returns {Array<string>} The list of observed attributes
+ */
     static get observedAttributes() {
         return ['title', 'author', 'image', 'id'];
     }
 
 // Handle changes to the observed attributes
+ /**
+     * Manages updates to attributes
+     * @param {string} name - The name of the changed attribute.
+     * @param {string} oldValue - The old value of the attribute.
+     * @param {string} newValue - The new value of the attribute.
+     */
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) {
             this.render();  // Re-render the component when any of the observed attributes change
@@ -19,6 +32,9 @@ class BookPreview extends HTMLElement {
     }
 
  // Render the HTML structure and styles for the component
+  /**
+     * Displays the HTML and styles
+     */
     render() {
     // Retrieve attributes or set default values if attributes are missing
             const title = this.getAttribute('title') || 'Unknown Title';
